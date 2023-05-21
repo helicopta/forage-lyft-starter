@@ -1,13 +1,14 @@
-from abc import ABC
-
 from battery.battery import Battery
+from utils import add_years_to_date
 
-class NubbinBattery(Battery, ABC):
+class NubbinBattery(Battery):
     def __init__(self, last_service_date, current_date):       
         self.last_service_date = last_service_date
         self.current_date = current_date
+
     def needs_service(self):
-        if self.last_service_date - self.current_date >= 4:
+        date_should_be_serviced_by = add_years_to_date(self.last_service_date, 4)
+        if date_should_be_serviced_by < self.current_date:
             return True
         else:
             return False
