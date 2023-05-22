@@ -1,17 +1,13 @@
 import unittest
 from datetime import datetime
 
-from engine.model.calliope import Calliope
-from engine.model.glissade import Glissade
-from engine.model.palindrome import Palindrome
-from engine.model.rorschach import Rorschach
-from engine.model.thovex import Thovex
-
 from engine.capulet_engine import CapuletEngine
 from engine.sternman_engine import SternmanEngine
 from engine.willoughby_engine import WilloughbyEngine
 from battery.nubbin_battery import NubbinBattery
 from battery.spindler_battery import SpindlerBattery
+from tire.carrigan_tire import CarriganTire
+from tire.octoprime_tire import OctoprimeTire
 
 class TestCapuletEngine(unittest.TestCase) :
     def test_engine_should_be_serviced(self):
@@ -74,7 +70,7 @@ class TestNubbinBattery(unittest.TestCase) :
 class TestSpindlerBattery(unittest.TestCase) :
     def test_battery_should_be_serviced(self):
         current_date = datetime.today().date()
-        last_service_date = current_date.replace(year=current_date.year - 3)
+        last_service_date = current_date.replace(year=current_date.year - 4)
 
         spindler = SpindlerBattery(last_service_date, current_date)
         self.assertTrue(spindler.needs_service())
@@ -86,8 +82,31 @@ class TestSpindlerBattery(unittest.TestCase) :
         spindler = SpindlerBattery(last_service_date, current_date)
         self.assertFalse(spindler.needs_service())
 
+class TestCarriganTire(unittest.TestCase) :
+    def test_tire_should_be_serviced(self):
+        array = [0.5, 0.5, 0.9, 0.8]
 
+        carrigan = CarriganTire(array)
+        self.assertTrue(carrigan.needs_service())
 
+    def test_tire_should_not_be_serviced(self):
+        array = [0.5, 0.5, 0.8, 0.8]
+
+        carrigan = CarriganTire(array)
+        self.assertFalse(carrigan.needs_service())
+
+class TestOctoprimeTire(unittest.TestCase) :
+    def test_tire_should_be_serviced(self):
+        array = [0.5, 0.9, 0.9, 0.9]
+
+        octoprime = OctoprimeTire(array)
+        self.assertTrue(octoprime.needs_service())
+
+    def test_tire_should_not_be_serviced(self):
+        array = [0.5, 0.5, 0.5, 0.5]
+
+        octoprime = OctoprimeTire(array)
+        self.assertFalse(octoprime.needs_service())
 
 if __name__ == '__main__':
     unittest.main()
